@@ -1,0 +1,264 @@
+@charset "utf-8";
+
+/* Schriften des Buchumschlags. Monaspace, SIL Open Font License,
+   siehe assets/fonts/LICENSE-Monaspace.txt */
+@font-face{font-family:"Monaspace Neon";src:url(../fonts/monaspace-neon-latin-300-normal.woff2) format("woff2");
+  font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Neon";src:url(../fonts/monaspace-neon-latin-400-normal.woff2) format("woff2");
+  font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Neon";src:url(../fonts/monaspace-neon-latin-500-normal.woff2) format("woff2");
+  font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Neon";src:url(../fonts/monaspace-neon-latin-700-normal.woff2) format("woff2");
+  font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Xenon";src:url(../fonts/monaspace-xenon-latin-400-normal.woff2) format("woff2");
+  font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Xenon";src:url(../fonts/monaspace-xenon-latin-500-normal.woff2) format("woff2");
+  font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Monaspace Xenon";src:url(../fonts/monaspace-xenon-latin-700-normal.woff2) format("woff2");
+  font-weight:700;font-style:normal;font-display:swap}
+
+:root{
+  /* Farben aus dem Buchumschlag */
+  --tinte:#0C2431;
+  --stahl:#3A6E8F;
+  --hell:#8FB4C8;
+  --ziegel:#A8452F;        /* Akzent auf hellem Grund */
+  --ziegel-hell:#C4553D;   /* große Schrift auf dunklem Grund */
+  --ziegel-auf:#DB7C62;    /* kleine Schrift auf dunklem Grund, 5,4:1 */
+  --papier:#F4F1EC;
+  --papier-auf:#FFFFFF;
+  --linie:#D5CEC3;
+  --grau:#5A6066;
+
+  --display:"Monaspace Xenon",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Monaspace Neon",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --satz:820px;          /* Satzspiegel, so breit wie die Buchseite wirkt */
+  --rand:20px;
+  --sperr:.22em;         /* Sperrung der Kapitälchen-Labels */
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--papier);color:var(--tinte);
+  font-family:var(--body);font-weight:300;font-size:16px;line-height:1.6;
+  font-variant-ligatures:none;          /* Monaspace sonst mit Code-Ligaturen */
+}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.15;margin:0}
+button{font-family:var(--body);font-size:inherit;cursor:pointer}
+/* Lange Begriffe ohne Leerzeichen dürfen die Seite nicht breiter machen. */
+h1,h2,p,li,.wahl,.rev,.frage{overflow-wrap:anywhere}
+:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+.wrap{max-width:var(--satz);margin:0 auto;padding:0 var(--rand)}
+.verst{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mut{color:var(--grau);font-size:14px}
+
+/* ---------- Bausteine aus dem Umschlag ---------- */
+.dunkel{background:var(--tinte);color:var(--papier);position:relative;overflow:hidden}
+.dunkel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--ziegel)}
+.netz{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.kopf{padding-top:26px}
+.kopf hr{border:none;border-top:1px solid rgba(244,241,236,.35);margin:0 0 16px}
+.kopf .zeile{display:flex;justify-content:space-between;gap:16px;
+  font-size:11px;font-weight:500;letter-spacing:var(--sperr);
+  text-transform:uppercase;color:var(--hell)}
+.kopf .zeile span:last-child{text-align:right}
+
+.marke{display:block;margin:0;font-family:var(--body);font-size:11px;font-weight:500;
+  letter-spacing:var(--sperr);text-transform:uppercase;color:var(--ziegel)}
+/* Auf dunklem Grund trägt das Buchrot zu wenig Kontrast für 11px Schrift. */
+.dunkel .marke{color:var(--ziegel-auf)}
+.marke.blau{color:var(--hell)}
+.marke.grau{color:var(--grau)}
+
+.titel{font-family:var(--display);font-weight:700;letter-spacing:-.02em;
+  font-size:clamp(21px,6.7vw,60px);display:flex;align-items:baseline;gap:.26em}
+.titel .prompt{color:var(--ziegel)}
+.titel .cursor{display:inline-block;width:.2em;height:.78em;background:var(--ziegel);
+  transform:translateY(.06em)}
+.unter{font-family:var(--display);font-weight:400;color:var(--hell);
+  font-size:clamp(15px,3vw,22px);margin-top:4px}
+.strich{width:180px;height:5px;background:var(--ziegel);margin-top:20px}
+
+/* ---------- Startseite ---------- */
+.hero{padding-bottom:46px}
+.hero .titelblock{padding-top:54px}
+.start-unten{padding-block:36px 70px}
+.modi{display:grid;gap:12px;margin-top:14px}
+/* Antwortfeld: ein Label um ein echtes Radio, damit Tastatur, Vorlesen und
+   Gruppenverhalten vom Browser kommen und nicht nachgebaut werden müssen. */
+.wahl{display:flex;gap:14px;align-items:flex-start;background:var(--papier-auf);
+  border:1px solid var(--linie);padding:15px 17px;width:100%;cursor:pointer;
+  transition:border-color .12s,box-shadow .12s}
+.wahl input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.wahl:hover{border-color:var(--stahl)}
+/* Der Ring gehört der Tastatur, nicht dem Finger. */
+.wahl:has(input:focus-visible){outline:2px solid var(--ziegel);outline-offset:2px}
+.wahl.an{border-color:var(--tinte);box-shadow:inset 4px 0 0 var(--ziegel)}
+.wahl .key{font-family:var(--display);font-weight:700;color:var(--stahl);min-width:1.5em}
+.wahl.an .key{color:var(--ziegel)}
+
+.cta{background:var(--tinte);color:var(--papier);border:none;padding:15px 30px;
+  font-family:var(--display);font-weight:700;letter-spacing:.02em;margin-top:26px}
+.cta:hover{background:var(--stahl)}
+.geist{background:transparent;color:var(--tinte);border:1px solid var(--linie);
+  padding:13px 22px;font-family:var(--display);font-weight:500}
+.geist:hover{border-color:var(--tinte)}
+.geist:disabled{color:var(--grau);border-color:var(--linie);opacity:.55;cursor:not-allowed}
+.feld{width:100%;font-family:var(--body);font-size:16px;padding:13px 14px;
+  border:1px solid var(--linie);background:var(--papier-auf);color:var(--tinte)}
+/* Für ein einzelnes Wort braucht es nicht die ganze Satzbreite. */
+input.feld[type="text"]{max-width:440px}
+.feld:focus{outline:2px solid var(--stahl);outline-offset:1px;border-color:var(--stahl)}
+textarea.feld{min-height:120px;resize:vertical;line-height:1.6}
+select.feld{width:auto;padding:9px 11px}
+
+/* Hinweis auf einen unterbrochenen Durchgang */
+.fortsetzen{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;
+  border-left:4px solid var(--stahl);background:var(--papier-auf);
+  border-top:1px solid var(--linie);border-right:1px solid var(--linie);
+  border-bottom:1px solid var(--linie);padding:14px 18px;margin-bottom:26px}
+.fortsetzen p{margin:0;flex:1 1 230px;font-size:14px}
+.fortsetzen .geist{padding:9px 16px;font-size:14px}
+.fortsetzen .weg{border:none;background:none;color:var(--grau);font-size:13px;
+  text-decoration:underline;padding:4px}
+
+/* ---------- Fragebogen ---------- */
+.leiste{background:var(--tinte);color:var(--papier);position:sticky;top:0;z-index:5}
+.leiste .innen{max-width:var(--satz);margin:0 auto;padding:13px var(--rand) 0}
+.leiste .zeile{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--hell)}
+.balken{height:5px;background:rgba(244,241,236,.16);margin-top:11px}
+.balken i{display:block;height:100%;background:var(--ziegel);width:0;transition:width .3s ease}
+
+.frageblatt{padding-block:30px 40px}
+.frage{font-size:clamp(19px,3.6vw,25px);line-height:1.35;margin:10px 0 2px}
+.frage:focus{outline:none}
+.frage:focus-visible{outline:2px solid var(--ziegel);outline-offset:4px}
+.marke:focus{outline:none}
+.marke:focus-visible{outline:2px solid var(--ziegel);outline-offset:3px}
+/* Der Rahmen legt sich um die Abbildung, statt die ganze Satzbreite
+   als weiße Fläche zu füllen. */
+.abb{width:fit-content;min-width:min(240px,100%);max-width:100%;margin:20px 0 4px;
+  padding:14px 18px;background:var(--papier-auf);border:1px solid var(--linie);text-align:center}
+.abb img{display:block;margin:0 auto;max-width:100%;height:auto;max-height:min(220px, 28vh)}
+.abb figcaption{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--grau);margin-top:10px;white-space:nowrap}
+
+.zuord{display:grid;gap:10px;margin-top:14px}
+.zuord .paar{display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:center;
+  background:var(--papier-auf);border:1px solid var(--linie);padding:12px 15px}
+.zuord .paar b{font-weight:500}
+/* Buchstabenreihe: ein Tipp genügt, und die Zuordnung ist auf einen Blick da. */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{position:relative;display:grid;place-items:center;min-width:46px;height:44px;
+  padding:0 10px;
+  border:1px solid var(--linie);background:var(--papier);cursor:pointer;
+  font-family:var(--display);font-weight:500;color:var(--grau);
+  transition:background .12s,border-color .12s,color .12s}
+.chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.chip:hover{border-color:var(--stahl);color:var(--tinte)}
+.chip:has(input:focus-visible){outline:2px solid var(--ziegel);outline-offset:2px}
+.chip.an{background:var(--tinte);border-color:var(--tinte);color:var(--papier);font-weight:700}
+.beschr{margin-top:16px;padding:15px 18px;background:var(--tinte);color:var(--papier)}
+.beschr ol{margin:8px 0 0;padding-left:1.4em;font-size:15px;line-height:1.5}
+.beschr li{margin:5px 0;padding-left:2px}
+.beschr li::marker{color:var(--hell)}
+
+.punkte{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px}
+.punkte b{width:9px;height:9px;background:var(--linie);display:block}
+.punkte b.voll{background:var(--stahl)}
+.punkte b.hier{background:var(--ziegel);transform:scale(1.4)}
+
+.navfix{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--papier);
+  border-top:1px solid var(--linie)}
+.navfix .innen{max-width:var(--satz);margin:0 auto;
+  padding:12px var(--rand) calc(12px + env(safe-area-inset-bottom));
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.navfix .cta,.navfix .geist{margin-top:0}
+.navfix .mitte{font-size:13px;padding:10px 14px;color:var(--grau)}
+.navfix .mitte:hover{color:var(--ziegel);border-color:var(--ziegel)}
+body.imquiz{padding-bottom:104px}
+
+/* ---------- Auswertung ---------- */
+.ergebnis-hero{padding:38px 0 46px}
+.prozent{font-family:var(--display);font-weight:700;letter-spacing:-.04em;margin-top:10px;
+  font-size:clamp(76px,20vw,150px);line-height:.88;color:var(--ziegel-hell)}
+.prozent.gut{color:var(--papier)}
+.bilanz{font-family:var(--display);font-size:clamp(15px,3vw,20px);color:var(--hell);margin-top:14px}
+
+.kapitel{margin-top:14px}
+.kapitel .z{display:grid;grid-template-columns:minmax(0,1fr) minmax(110px,240px) 52px;
+  gap:12px 16px;align-items:center;padding:8px 0;border-bottom:1px solid var(--linie);font-size:14px}
+.kapitel .sp{height:7px;background:var(--linie)}
+.kapitel .sp i{display:block;height:100%;background:var(--stahl)}
+.kapitel .z.schwach .sp i{background:var(--ziegel)}
+.kapitel .zahl{font-family:var(--display);font-weight:700;font-size:13px;text-align:right}
+
+.kopfzeile{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px}
+.filter{display:flex;gap:6px}
+.filter button{border:1px solid var(--linie);background:var(--papier-auf);color:var(--grau);
+  padding:6px 13px;font-size:12px;letter-spacing:.06em}
+.filter button[aria-pressed="true"]{background:var(--tinte);border-color:var(--tinte);
+  color:var(--papier)}
+
+.rev{border:1px solid var(--linie);border-left:5px solid var(--stahl);
+  background:var(--papier-auf);padding:19px 21px;margin-top:12px}
+.rev.falsch{border-left-color:var(--ziegel)}
+.rev.offen{border-left-color:var(--hell)}
+.rev .kopfz{display:flex;justify-content:space-between;gap:14px;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grau)}
+.rev .status{font-weight:700}
+.rev.falsch .status{color:var(--ziegel)}
+.rev.richtig .status{color:var(--stahl)}
+.rev p{margin:10px 0 0}
+.rev .wortlaut{font-family:var(--display);font-weight:700}
+.rev .eigene{white-space:pre-wrap}
+.rev .lab{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--grau);display:block;margin-bottom:2px}
+.selbst{display:flex;gap:8px;margin-top:13px}
+.selbst button{border:1px solid var(--linie);background:var(--papier-auf);padding:8px 16px;
+  font-family:var(--display);font-size:13px;color:var(--tinte)}
+.selbst button.an{background:var(--stahl);color:var(--papier-auf);border-color:var(--stahl)}
+.selbst button.an.nein{background:var(--ziegel);border-color:var(--ziegel)}
+
+.abschnitt{padding-top:34px}
+.abschnitt.letzte{padding-bottom:60px}
+.leer{color:var(--grau);font-size:14px;margin-top:16px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+@media (max-width:620px){
+  .kopf .zeile{font-size:9px;letter-spacing:.12em;gap:10px}
+  .leiste .zeile{font-size:9px;letter-spacing:.1em}
+}
+/* Schmale Schirme: die beiden Kopfzeilen untereinander statt gequetscht nebeneinander. */
+@media (max-width:560px){
+  .kopf .zeile{flex-direction:column;gap:3px}
+  .kopf .zeile span:last-child{text-align:left}
+}
+@media (max-width:520px){
+  :root{--rand:16px}
+  .abb{padding:12px 14px}
+  .abb figcaption{margin-top:8px;font-size:9px;letter-spacing:.14em}
+  .frageblatt{padding-block:22px 30px}
+  .kapitel .z{grid-template-columns:1fr 62px 44px}
+  .zuord .paar{grid-template-columns:1fr;gap:9px}
+  .chips{gap:8px}
+  .chip{flex:0 1 74px}
+  select.feld{width:100%}
+  .titel{gap:.18em}
+  .unter{font-size:15px}
+}
+
+/* Ausdruck: nur die Auswertung, ohne Bedienelemente */
+@media print{
+  .navfix,.filter,.cta,.geist,.netz{display:none !important}
+  body{background:#fff;padding-bottom:0}
+  .dunkel{background:#fff;color:var(--tinte)}
+  .dunkel::after{display:none}
+  .prozent{color:var(--tinte)}
+  .bilanz,.kopf .zeile{color:var(--grau)}
+  .rev{break-inside:avoid;page-break-inside:avoid}
+}
